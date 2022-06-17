@@ -1,0 +1,354 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище Lab_21Model" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Parts_reference_">
+          <Key>
+            <PropertyRef Name="Parts_Id" />
+          </Key>
+          <Property Name="Parts_Id" Type="int" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Price" Type="float" />
+        </EntityType>
+        <EntityType Name="Product_composition">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+            <PropertyRef Name="Parts_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="int" Nullable="false" />
+          <Property Name="Parts_Id" Type="int" Nullable="false" />
+          <Property Name="Number_of_parts" Type="int" />
+        </EntityType>
+        <EntityType Name="Product_Reference">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="int" Nullable="false" />
+          <Property Name="Product_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cost_of_assembly" Type="int" />
+        </EntityType>
+        <EntityType Name="Release_plan">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+            <PropertyRef Name="Workshops_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="int" Nullable="false" />
+          <Property Name="Number_of_products" Type="int" />
+          <Property Name="Workshops_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Workshops">
+          <Key>
+            <PropertyRef Name="Workshops_Id" />
+          </Key>
+          <Property Name="Workshops_Id" Type="int" Nullable="false" />
+          <Property Name="Workshops_Name" Type="nvarchar" MaxLength="50" />
+          <Property Name="Chief" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Product_composition_Parts_reference_">
+          <End Role="Parts_reference_" Type="Self.Parts_reference_" Multiplicity="1" />
+          <End Role="Product_composition" Type="Self.Product_composition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts_reference_">
+              <PropertyRef Name="Parts_Id" />
+            </Principal>
+            <Dependent Role="Product_composition">
+              <PropertyRef Name="Parts_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_composition_Product_Reference">
+          <End Role="Product_Reference" Type="Self.Product_Reference" Multiplicity="1" />
+          <End Role="Product_composition" Type="Self.Product_composition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Reference">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Product_composition">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Release_plan_Product_Reference">
+          <End Role="Product_Reference" Type="Self.Product_Reference" Multiplicity="1" />
+          <End Role="Release_plan" Type="Self.Release_plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Reference">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Release_plan">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Release_plan_Workshops">
+          <End Role="Workshops" Type="Self.Workshops" Multiplicity="1" />
+          <End Role="Release_plan" Type="Self.Release_plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workshops">
+              <PropertyRef Name="Workshops_Id" />
+            </Principal>
+            <Dependent Role="Release_plan">
+              <PropertyRef Name="Workshops_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище Lab_21ModelContainer">
+          <EntitySet Name="Parts_reference_" EntityType="Self.Parts_reference_" Schema="dbo" Table="Parts_reference." store:Type="Tables" />
+          <EntitySet Name="Product_composition" EntityType="Self.Product_composition" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Product_Reference" EntityType="Self.Product_Reference" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Release_plan" EntityType="Self.Release_plan" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Workshops" EntityType="Self.Workshops" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Product_composition_Parts_reference_" Association="Self.FK_Product_composition_Parts_reference_">
+            <End Role="Parts_reference_" EntitySet="Parts_reference_" />
+            <End Role="Product_composition" EntitySet="Product_composition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_composition_Product_Reference" Association="Self.FK_Product_composition_Product_Reference">
+            <End Role="Product_Reference" EntitySet="Product_Reference" />
+            <End Role="Product_composition" EntitySet="Product_composition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Release_plan_Product_Reference" Association="Self.FK_Release_plan_Product_Reference">
+            <End Role="Product_Reference" EntitySet="Product_Reference" />
+            <End Role="Release_plan" EntitySet="Release_plan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Release_plan_Workshops" Association="Self.FK_Release_plan_Workshops">
+            <End Role="Workshops" EntitySet="Workshops" />
+            <End Role="Release_plan" EntitySet="Release_plan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Lab_21Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Parts_reference_">
+          <Key>
+            <PropertyRef Name="Parts_Id" />
+          </Key>
+          <Property Name="Parts_Id" Type="Int32" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Double" />
+          <NavigationProperty Name="Product_composition" Relationship="Self.FK_Product_composition_Parts_reference_" FromRole="Parts_reference_" ToRole="Product_composition" />
+        </EntityType>
+        <EntityType Name="Product_composition">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+            <PropertyRef Name="Parts_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Parts_Id" Type="Int32" Nullable="false" />
+          <Property Name="Number_of_parts" Type="Int32" />
+          <NavigationProperty Name="Parts_reference_" Relationship="Self.FK_Product_composition_Parts_reference_" FromRole="Product_composition" ToRole="Parts_reference_" />
+          <NavigationProperty Name="Product_Reference" Relationship="Self.FK_Product_composition_Product_Reference" FromRole="Product_composition" ToRole="Product_Reference" />
+        </EntityType>
+        <EntityType Name="Product_Reference">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Product_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cost_of_assembly" Type="Int32" />
+          <NavigationProperty Name="Product_composition" Relationship="Self.FK_Product_composition_Product_Reference" FromRole="Product_Reference" ToRole="Product_composition" />
+          <NavigationProperty Name="Release_plan" Relationship="Self.FK_Release_plan_Product_Reference" FromRole="Product_Reference" ToRole="Release_plan" />
+        </EntityType>
+        <EntityType Name="Release_plan">
+          <Key>
+            <PropertyRef Name="Product_Id" />
+            <PropertyRef Name="Workshops_Id" />
+          </Key>
+          <Property Name="Product_Id" Type="Int32" Nullable="false" />
+          <Property Name="Number_of_products" Type="Int32" />
+          <Property Name="Workshops_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Product_Reference" Relationship="Self.FK_Release_plan_Product_Reference" FromRole="Release_plan" ToRole="Product_Reference" />
+          <NavigationProperty Name="Workshops" Relationship="Self.FK_Release_plan_Workshops" FromRole="Release_plan" ToRole="Workshops" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Workshops">
+          <Key>
+            <PropertyRef Name="Workshops_Id" />
+          </Key>
+          <Property Name="Workshops_Id" Type="Int32" Nullable="false" />
+          <Property Name="Workshops_Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Chief" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Release_plan" Relationship="Self.FK_Release_plan_Workshops" FromRole="Workshops" ToRole="Release_plan" />
+        </EntityType>
+        <Association Name="FK_Product_composition_Parts_reference_">
+          <End Role="Parts_reference_" Type="Self.Parts_reference_" Multiplicity="1" />
+          <End Role="Product_composition" Type="Self.Product_composition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Parts_reference_">
+              <PropertyRef Name="Parts_Id" />
+            </Principal>
+            <Dependent Role="Product_composition">
+              <PropertyRef Name="Parts_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Product_composition_Product_Reference">
+          <End Role="Product_Reference" Type="Self.Product_Reference" Multiplicity="1" />
+          <End Role="Product_composition" Type="Self.Product_composition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Reference">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Product_composition">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Release_plan_Product_Reference">
+          <End Role="Product_Reference" Type="Self.Product_Reference" Multiplicity="1" />
+          <End Role="Release_plan" Type="Self.Release_plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Product_Reference">
+              <PropertyRef Name="Product_Id" />
+            </Principal>
+            <Dependent Role="Release_plan">
+              <PropertyRef Name="Product_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Release_plan_Workshops">
+          <End Role="Workshops" Type="Self.Workshops" Multiplicity="1" />
+          <End Role="Release_plan" Type="Self.Release_plan" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Workshops">
+              <PropertyRef Name="Workshops_Id" />
+            </Principal>
+            <Dependent Role="Release_plan">
+              <PropertyRef Name="Workshops_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Lab_21Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Parts_reference_" EntityType="Self.Parts_reference_" />
+          <EntitySet Name="Product_composition" EntityType="Self.Product_composition" />
+          <EntitySet Name="Product_Reference" EntityType="Self.Product_Reference" />
+          <EntitySet Name="Release_plan" EntityType="Self.Release_plan" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Workshops" EntityType="Self.Workshops" />
+          <AssociationSet Name="FK_Product_composition_Parts_reference_" Association="Self.FK_Product_composition_Parts_reference_">
+            <End Role="Parts_reference_" EntitySet="Parts_reference_" />
+            <End Role="Product_composition" EntitySet="Product_composition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Product_composition_Product_Reference" Association="Self.FK_Product_composition_Product_Reference">
+            <End Role="Product_Reference" EntitySet="Product_Reference" />
+            <End Role="Product_composition" EntitySet="Product_composition" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Release_plan_Product_Reference" Association="Self.FK_Release_plan_Product_Reference">
+            <End Role="Product_Reference" EntitySet="Product_Reference" />
+            <End Role="Release_plan" EntitySet="Release_plan" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Release_plan_Workshops" Association="Self.FK_Release_plan_Workshops">
+            <End Role="Workshops" EntitySet="Workshops" />
+            <End Role="Release_plan" EntitySet="Release_plan" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище Lab_21ModelContainer" CdmEntityContainer="Lab_21Entities">
+          <EntitySetMapping Name="Parts_reference_">
+            <EntityTypeMapping TypeName="Lab_21Model.Parts_reference_">
+              <MappingFragment StoreEntitySet="Parts_reference_">
+                <ScalarProperty Name="Parts_Id" ColumnName="Parts_Id" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_composition">
+            <EntityTypeMapping TypeName="Lab_21Model.Product_composition">
+              <MappingFragment StoreEntitySet="Product_composition">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="Parts_Id" ColumnName="Parts_Id" />
+                <ScalarProperty Name="Number_of_parts" ColumnName="Number_of_parts" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Product_Reference">
+            <EntityTypeMapping TypeName="Lab_21Model.Product_Reference">
+              <MappingFragment StoreEntitySet="Product_Reference">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="Product_Name" ColumnName="Product_Name" />
+                <ScalarProperty Name="Cost_of_assembly" ColumnName="Cost_of_assembly" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Release_plan">
+            <EntityTypeMapping TypeName="Lab_21Model.Release_plan">
+              <MappingFragment StoreEntitySet="Release_plan">
+                <ScalarProperty Name="Product_Id" ColumnName="Product_Id" />
+                <ScalarProperty Name="Number_of_products" ColumnName="Number_of_products" />
+                <ScalarProperty Name="Workshops_Id" ColumnName="Workshops_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Lab_21Model.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Workshops">
+            <EntityTypeMapping TypeName="Lab_21Model.Workshops">
+              <MappingFragment StoreEntitySet="Workshops">
+                <ScalarProperty Name="Workshops_Id" ColumnName="Workshops_Id" />
+                <ScalarProperty Name="Workshops_Name" ColumnName="Workshops_Name" />
+                <ScalarProperty Name="Chief" ColumnName="Chief" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

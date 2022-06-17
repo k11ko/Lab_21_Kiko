@@ -1,0 +1,79 @@
+﻿<Window x:Class="Lab_21_Kiko.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Lab_21_Kiko"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" Activated="Window_Activated">
+    <Grid>
+        <Menu HorizontalAlignment="Stretch" Height="20"  VerticalAlignment="Top" >
+            <MenuItem Header="Фыйл"/>
+            <MenuItem Header="Запрос № 1" Click="Linq_1"/>
+            <MenuItem Header="Запрос № 2" Click="Linq_2"/>
+            
+        </Menu>
+       
+        <TabControl HorizontalAlignment="Stretch" Height="400" Margin="0,20,0,0" VerticalAlignment="Top" >
+            <TabItem Header="Перечень продукции">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_1" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Id" Binding="{Binding Product_Id}"/>
+                            <DataGridTextColumn Header="Название продукции" Binding="{Binding Product_Name}"/>
+                            <DataGridTextColumn Header="Цена сборки" Binding="{Binding Cost_of_assembly}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Перечень деталей">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_2" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Id" Binding="{Binding Parts_Id}"/>
+                            <DataGridTextColumn Header="Название детали" Binding="{Binding Product_Name}"/>
+                            <DataGridTextColumn Header="Цена" Binding="{Binding Price}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Цеха">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_3" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Id" Binding="{Binding Workshops_Id}"/>
+                            <DataGridTextColumn Header="Название цеха" Binding="{Binding Workshops_Name}"/>
+                            <DataGridTextColumn Header="Начальник" Binding="{Binding Chief}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Состав продукции">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_4" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Id продукции" Binding="{Binding Product_Id}"/>
+                            <DataGridTextColumn Header="Id деталей" Binding="{Binding Parts_Id}"/>
+                            <DataGridTextColumn Header="Кол-во деталей" Binding="{Binding Number_of_parts}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="План выпуска">
+                <Grid Background="#FFE5E5E5">
+                    <DataGrid x:Name="Date_5" AutoGenerateColumns="False" IsReadOnly="True" Height="200" HorizontalAlignment="Stretch" VerticalAlignment="Top">
+                        <DataGrid.Columns >
+                            <DataGridTextColumn Header="Id продукции" Binding="{Binding Product_Id}"/>
+                            <DataGridTextColumn Header="Кол-во продукции" Binding="{Binding Number_of_products}"/>
+                            <DataGridTextColumn Header="Id цеха" Binding="{Binding Workshops_Id}"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Button Content="Добавить" HorizontalAlignment="Left" Margin="50,240,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Изменить" HorizontalAlignment="Left" Margin="200,240,0,0" VerticalAlignment="Top" Width="75"/>
+                    <Button Content="Удалить" HorizontalAlignment="Left" Margin="350,240,0,0" VerticalAlignment="Top" Width="75"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Window>
